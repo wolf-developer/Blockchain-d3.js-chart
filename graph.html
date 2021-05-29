@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <title>Trade Chart</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script type="text/javascript" src="Tradechart.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+
+    <svg id="chart" width="800" height="420"></svg>
+
+    <script>
+        var url = "https://api.pancakeswap.info/api/v2/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82";
+        var settings = {
+            "url": url,
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        // setTimeout(appendData, 1000);
+
+        function appendData() {
+            $.ajax(settings).done(function(response) {
+                $.ajax({
+                    url: "save_csv.php",
+                    method: 'post',
+                    data: {
+                        "update_at": response.updated_at,
+                        "price": response.data.price,
+                    },
+                    dataType: 'json',
+                    success: function(res) {}
+                });
+            });
+        }
+
+
+        var config = {
+            elemID: "#chart",
+            data: "data.csv",
+        }
+        tradeChart(config);
+    </script>
+</body>

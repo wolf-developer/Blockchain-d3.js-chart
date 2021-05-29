@@ -1,0 +1,11 @@
+body {
+    margin: auto;
+    width: 850px;
+    padding-top: 45px;
+    font: 12px arial;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
