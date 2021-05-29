@@ -3,6 +3,11 @@ body {
     width: 850px;
     padding-top: 45px;
     font: 12px arial;
+    background: antiquewhite;
+}
+
+svg {
+    background: snow;
 }
 
 .overlay {

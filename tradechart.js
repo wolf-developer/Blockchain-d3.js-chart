@@ -1,5 +1,3 @@
-var svg, chart;
-
 function tradeChart(config) {
     var parseDate = d3.timeParse("%s");
 
@@ -99,10 +97,20 @@ function tradeChart(config) {
                 .style("display", "none");
 
             focus.append("line")
+                .attr("class", "time-line")
                 .attr("stroke", "#666")
                 .attr("stroke-width", 1)
+                .style("stroke-dasharray", ("5, 5"))
                 .attr("y1", -height + margin.top)
                 .attr("y2", -margin.bottom);
+
+            focus.append("line")
+                .attr("class", "price-line")
+                .attr("stroke", "#666")
+                .attr("stroke-width", 1)
+                .style("stroke-dasharray", ("5, 5"))
+                .attr("x1", margin.left)
+                .attr("x2", width - margin.right);
 
             focus.append("circle")
                 .attr("class", "circle")
@@ -112,8 +120,15 @@ function tradeChart(config) {
                 .attr("fill", "#fff");
 
             focus.append("text")
+                .attr("class", "time-text")
                 .attr("text-anchor", "middle")
                 .attr("dy", ".35em");
+
+            focus.append("text")
+                .attr("class", "price-text")
+                .attr("text-anchor", "left")
+                .attr("dx", "3.5em")
+                .attr("dy", "-0.2em");
 
             var overlay = svg.append("rect")
                 .attr("class", "overlay")
@@ -134,18 +149,27 @@ function tradeChart(config) {
                     d1 = data[i],
                     d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 
-                focus.select("line")
+                focus.select(".time-line")
                     .attr("transform",
                         "translate(" + x(d.date) + "," + height + ")");
+
+                focus.select(".price-line")
+                    .attr("transform",
+                        "translate(" + 0 + "," + y(d.value) + ")");
 
                 focus.selectAll(".circle")
                     .attr("transform",
                         "translate(" + x(d.date) + "," + y(d.value) + ")");
 
-                focus.select("text")
+                focus.select(".time-text")
                     .attr("transform",
                         "translate(" + x(d.date) + "," + (height + margin.bottom) + ")")
                     .text(dateFormat(d.date));
+
+                focus.select(".price-text")
+                    .attr("transform",
+                        "translate(" + 10 + "," + y(d.value) + ")")
+                    .text(d.value);
             }
         }
     }
